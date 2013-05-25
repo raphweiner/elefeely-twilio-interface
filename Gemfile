@@ -7,3 +7,6 @@ gem 'sqlite3'
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
 end
+
+gem 'resque', :require => 'resque/server'
+gem 'resque-scheduler', :require => 'resque_scheduler'

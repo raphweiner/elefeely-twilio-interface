@@ -35,3 +35,5 @@ ElefeelyTwilioInterface::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 end
+
+ENV["REDISTOGO_URL"] = 'redis://localhost:6379'

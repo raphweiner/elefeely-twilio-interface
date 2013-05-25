@@ -1,0 +1,5 @@
+poll_twilio:
+  every: 30s
+  class: PollTwilioJob
+  queue: twilio_queue
+  description: Runs the perform method in PollTwilioJob
