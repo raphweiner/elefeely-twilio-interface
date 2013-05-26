@@ -18,4 +18,7 @@ class Elefeely
   def self.retrieve_phone_numbers
     ['4157455607']
   end
+
+  def self.create(params)
+  end
 end
