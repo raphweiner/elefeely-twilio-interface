@@ -14,4 +14,8 @@ private
   end
 end
 
-class Elefeely; end
+class Elefeely
+  def self.retrieve_phone_numbers
+    ['4157455607']
+  end
+end
