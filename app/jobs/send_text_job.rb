@@ -1,4 +1,4 @@
-class SendTextJob
+class SendSmsJob
   @queue = :send_text_queue
 
   def self.perform(phone_number)
