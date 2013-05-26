@@ -1,5 +1,5 @@
 class SendSmsJob
-  @queue = :send_text_queue
+  @queue = :send_sms_queue
 
   def self.perform(phone_number)
     client = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'],
