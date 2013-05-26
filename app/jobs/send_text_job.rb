@@ -14,7 +14,12 @@ private
     client.account.sms.messages.create(
       :from => ENV['TWILIO_PHONE_NUMBER'],
       :to => phone_number,
-      :body => 'How are you feeling? 1-Sad, 2-Tired, 3-Okay, 4-Good, 5-Awesome'
+      :body => 'Elefeely: How are you?
+                1-Sad,
+                2-Tired,
+                3-Okay,
+                4-Good,
+                5-Awesome'
     )
   end
 end
