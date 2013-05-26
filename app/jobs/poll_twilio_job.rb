@@ -10,7 +10,7 @@ class PollTwilioJob
 private
 
   def self.enqueue_texts(phone_numbers)
-    phone_numbers.each { |number| Resque.enqueue(SendTextJob, number) }
+    phone_numbers.each { |number| Resque.enqueue(SendSmsJob, number) }
   end
 end
 

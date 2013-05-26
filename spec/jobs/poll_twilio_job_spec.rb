@@ -9,7 +9,7 @@ describe PollTwilioJob do
 
     it 'enqueues job to send text' do
       Elefeely.stub(:retrieve_phone_numbers).and_return(['1234567890'])
-      Resque.should_receive(:enqueue).with(SendTextJob, '1234567890')
+      Resque.should_receive(:enqueue).with(SendSmsJob, '1234567890')
       PollTwilioJob.perform
     end
   end
