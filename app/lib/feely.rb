@@ -3,24 +3,27 @@ class Feely
 
   def initialize(params)
     @sms_sid = params['SmsSid']
-    @body = params['Body']
+    @body = params['Body'].to_i
     @phone_number = params['From']
   end
 
   def message
-    {'5' => 'Great to hear!',
-     '4' => 'Nice!',
-     '3' => 'Gotcha. Hope something exciting happens.',
-     '2' => 'Ok, rest up!',
-     '1' => 'Sorry to hear it :('
-    }[body]
+    response = Hash.new("Please enter a number 1-5")
+    response.merge!(5 => 'Great to hear!',
+                    4 => 'Nice!',
+                    3 => 'Gotcha. Hope something exciting happens.',
+                    2 => 'Ok, rest up!',
+                    1 => 'Sorry to hear it :(')
+
+    response[body]
   end
 
   def send
-    if sms_sid && body && phone_number
-      Elefeely.create(sms_sid: sms_sid,
-                      body: body,
-                      phone_number: phone_number)
+    if valid?
+      Elefeely.create(source: 'twilio',
+                      event_id: sms_sid,
+                      score: body,
+                      uid: phone_number)
     end
   end
 
@@ -28,5 +31,11 @@ class Feely
     feely = new(params)
     feely.send
     feely
+  end
+
+private
+
+  def valid?
+    sms_sid && (1..5).include?(body) && phone_number
   end
 end
