@@ -19,6 +19,6 @@ class Elefeely
     ['4157455607']
   end
 
-  def self.create(params)
+  def self.send_feeling(params)
   end
 end
