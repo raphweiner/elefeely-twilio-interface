@@ -8,7 +8,7 @@ describe SmsController do
   describe 'POST #create' do
     context 'happy path' do
       it 'creates request to Elefeely API' do
-        Elefeely.should_receive(:create)
+        Elefeely.should_receive(:send_feeling)
 
         post :create, @params
       end
@@ -22,7 +22,7 @@ describe SmsController do
 
     context 'sad path' do
       it 'creates request to Elefeely API' do
-        Elefeely.should_not_receive(:create)
+        Elefeely.should_not_receive(:send_feeling)
 
         post :create, @params.merge("Body" => "I'm invalid")
       end
