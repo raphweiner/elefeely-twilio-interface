@@ -12,14 +12,14 @@ private
 
   def self.send_sms(client, phone_number)
     client.account.sms.messages.create(
-      :from => ENV['TWILIO_PHONE_NUMBER'],
-      :to => phone_number,
-      :body => 'Elefeely: How are you?
-                1-Sad,
-                2-Tired,
-                3-Okay,
-                4-Good,
-                5-Awesome'
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      to:   phone_number,
+      body: 'Elefeely: How are you?
+             1-Sad,
+             2-Tired,
+             3-Okay,
+             4-Good,
+             5-Awesome'
     )
   end
 end
