@@ -12,3 +12,8 @@ class SmsController < ApplicationController
     render xml: sms_message.response_xml
   end
 end
+
+class Elefeely
+  def self.send_feeling(params)
+  end
+end
