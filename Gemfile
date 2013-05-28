@@ -15,7 +15,7 @@ group :test do
   gem 'vcr',     '~> 2.5.0'
 end
 
-gem 'resque',           '~> 1.24.1' ,   :require => 'resque/server'
+gem 'resque',           '~> 1.24.1',    :require => 'resque/server'
 gem 'resque-scheduler', '~> 2.0.1',     :require => 'resque_scheduler'
 gem 'twilio-ruby',      '~> 3.9.0'
 gem 'faraday',          '~> 0.8.7'

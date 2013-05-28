@@ -1,4 +1,4 @@
-class ElefeelyAPI
+class ElefeelyAPIRequest
   def self.phone_numbers
     response_body = JSON.parse(request.body)
 
