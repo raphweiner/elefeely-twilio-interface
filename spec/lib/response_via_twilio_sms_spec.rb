@@ -21,7 +21,7 @@ describe ResponseViaTwilioSMS do
 
     context 'when it is a valid feeling' do
       it 'calls .send_feeling on elefeel gem' do
-        subject.stub(valid?: true)
+        subject.stub(valid_feeling?: true)
         Elefeely.should_receive(:send_feeling)
 
         subject.forward
@@ -30,7 +30,7 @@ describe ResponseViaTwilioSMS do
 
     context 'when it neither a valid feeling nor a validation response' do
       it 'does not call .validate_number nor .send_feeling' do
-        subject.stub(valid?: false)
+        subject.stub(valid_feeling?: false)
         subject.stub(validation_response?: false)
         Elefeely.should_not_receive(:validate_number)
         Elefeely.should_not_receive(:send_feeling)
@@ -40,22 +40,22 @@ describe ResponseViaTwilioSMS do
     end
   end
 
-  describe '.valid?' do
+  describe '.valid_feeling?' do
     it 'is valid with correct params' do
-      expect(subject).to be_valid
+      expect(subject).to be_valid_feeling
     end
 
     it 'requires an sms_sid' do
-      expect(ResponseViaTwilioSMS.new(@params.merge('SmsSid' => nil))).to_not be_valid
+      expect(ResponseViaTwilioSMS.new(@params.merge('SmsSid' => nil))).to_not be_valid_feeling
     end
 
     it 'requires a from' do
-      expect(ResponseViaTwilioSMS.new(@params.merge('From' => nil))).to_not be_valid
+      expect(ResponseViaTwilioSMS.new(@params.merge('From' => nil))).to_not be_valid_feeling
     end
 
     it 'requires a valid body between 1-5' do
-      expect(ResponseViaTwilioSMS.new(@params.merge('Body' => 'hello'))).to_not be_valid
-      expect(ResponseViaTwilioSMS.new(@params.merge('Body' => '6'))).to_not be_valid
+      expect(ResponseViaTwilioSMS.new(@params.merge('Body' => 'hello'))).to_not be_valid_feeling
+      expect(ResponseViaTwilioSMS.new(@params.merge('Body' => '6'))).to_not be_valid_feeling
     end
   end
 

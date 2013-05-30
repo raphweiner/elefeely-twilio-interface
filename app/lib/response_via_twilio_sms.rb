@@ -10,7 +10,7 @@ class ResponseViaTwilioSMS
   def forward
     if validation_response?
       Elefeely.validate_number(phone_number)
-    elsif valid?
+    elsif valid_feeling?
       Elefeely.send_feeling(source: 'twilio',
                             event_id: sms_sid,
                             feeling: body,
@@ -30,7 +30,7 @@ private
     @body == 'valid'
   end
 
-  def valid?
+  def valid_feeling?
     sms_sid && (1..5).include?(body.to_i) && phone_number
   end
 

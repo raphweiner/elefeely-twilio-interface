@@ -60,4 +60,3 @@ describe SmsController do
     end
   end
 end
-
