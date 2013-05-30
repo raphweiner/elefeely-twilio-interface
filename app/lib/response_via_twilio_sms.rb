@@ -1,10 +1,12 @@
 class ResponseViaTwilioSMS
-  attr_reader :sms_sid, :body, :phone_number
+  attr_reader :sms_sid,
+              :body,
+              :phone_number
 
   def initialize(params)
     @sms_sid = params['SmsSid']
     @body = params['Body'].downcase
-    @phone_number = params['From']
+    @phone_number = 10_digit_phone_number
   end
 
   def forward
@@ -25,6 +27,10 @@ class ResponseViaTwilioSMS
   end
 
 private
+
+  def 10_digit_phone_number
+    params['From'][-10..-1] || params['From']
+  end
 
   def validation_response?
     @body == 'valid'
