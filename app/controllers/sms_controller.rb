@@ -2,11 +2,10 @@ class SmsController < ApplicationController
   before_filter :validate_request, only: :validate
 
   def create
-    sms_message = ResponseViaTwilioSMS.new(params)
+    sms_response = ResponseViaTwilioSMS.new(params)
+    sms_response.forward
 
-    sms_message.perform
-
-    render xml: sms_message.response_xml
+    render xml: sms_response.reply_xml
   end
 
   def validate

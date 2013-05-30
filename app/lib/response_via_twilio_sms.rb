@@ -7,7 +7,7 @@ class ResponseViaTwilioSMS
     @phone_number = params['From']
   end
 
-  def perform
+  def forward
     if validation_response?
       Elefeely.validate_number(phone_number)
     elsif valid?
@@ -18,7 +18,7 @@ class ResponseViaTwilioSMS
     end
   end
 
-  def response_xml
+  def reply_xml
     message = reply || invalid_input_reply
 
     {:Sms => message}.to_xml(:root => 'Response')
