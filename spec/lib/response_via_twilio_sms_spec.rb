@@ -10,10 +10,10 @@ describe ResponseViaTwilioSMS do
   end
 
   describe '.forward' do
-    context 'when it is a validation response' do
-      it 'calls .validate_number on elefeely gem' do
-        subject.stub(validation_response?: true)
-        Elefeely.should_receive(:validate_number).with(@params['From'])
+    context 'when it is a verification response' do
+      it 'calls .verify_number on elefeely gem' do
+        subject.stub(verification_response?: true)
+        Elefeely.should_receive(:verify_number).with(@params['From'][-10..-1])
 
         subject.forward
       end
@@ -28,11 +28,11 @@ describe ResponseViaTwilioSMS do
       end
     end
 
-    context 'when it neither a valid feeling nor a validation response' do
-      it 'does not call .validate_number nor .send_feeling' do
+    context 'when it neither a valid feeling nor a verification response' do
+      it 'does not call .verify_number nor .send_feeling' do
         subject.stub(valid_feeling?: false)
-        subject.stub(validation_response?: false)
-        Elefeely.should_not_receive(:validate_number)
+        subject.stub(verification_response?: false)
+        Elefeely.should_not_receive(:verify_number)
         Elefeely.should_not_receive(:send_feeling)
 
         subject.forward
@@ -90,8 +90,8 @@ describe ResponseViaTwilioSMS do
     end
 
     it 'responds with the correct message when body is valid' do
-      sms_response = ResponseViaTwilioSMS.new(@params.merge('Body' => 'VALID'))
-      expect(sms_response.reply_xml).to eq xml_response('Thanks! Your number has been validated')
+      sms_response = ResponseViaTwilioSMS.new(@params.merge('Body' => 'VERIFY'))
+      expect(sms_response.reply_xml).to eq xml_response('Thanks! Your number has been verified')
     end
 
     it 'responds with the correct message when body is invalid' do

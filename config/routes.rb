@@ -3,5 +3,5 @@ ElefeelyTwilioInterface::Application.routes.draw do
 
   resource :sms, only: [ :create ]
 
-  post '/validation' => 'sms#validate'
+  post '/verification' => 'sms#verify'
 end

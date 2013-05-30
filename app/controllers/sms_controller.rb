@@ -1,5 +1,5 @@
 class SmsController < ApplicationController
-  before_filter :validate_request, only: :validate
+  before_filter :validate_request, only: :verify
 
   def create
     sms_response = ResponseViaTwilioSMS.new(params)
@@ -8,8 +8,8 @@ class SmsController < ApplicationController
     render xml: sms_response.reply_xml
   end
 
-  def validate
-    Resque.enqueue(SendSmsJob, :validation, params[:number])
+  def verify
+    Resque.enqueue(SendSmsJob, :verification, params[:number])
   end
 end
 
@@ -17,6 +17,6 @@ class Elefeely
   def self.send_feeling(params)
   end
 
-  def self.validate_number(params)
+  def self.verify_number(params)
   end
 end

@@ -6,12 +6,12 @@ class ResponseViaTwilioSMS
   def initialize(params)
     @sms_sid = params['SmsSid']
     @body = params['Body'].downcase
-    @phone_number = 10_digit_phone_number
+    @phone_number = last_ten_digits(params['From'])
   end
 
   def forward
-    if validation_response?
-      Elefeely.validate_number(phone_number)
+    if verification_response?
+      Elefeely.verify_number(phone_number)
     elsif valid_feeling?
       Elefeely.send_feeling(source: 'twilio',
                             event_id: sms_sid,
@@ -28,12 +28,12 @@ class ResponseViaTwilioSMS
 
 private
 
-  def 10_digit_phone_number
-    params['From'][-10..-1] || params['From']
+  def last_ten_digits(number)
+    number.try(:[], (-10..-1))
   end
 
-  def validation_response?
-    @body == 'valid'
+  def verification_response?
+    @body == 'verify'
   end
 
   def valid_feeling?
@@ -47,7 +47,7 @@ private
       '3' => 'Gotcha. Hope something exciting happens.',
       '2' => 'Ok, rest up!',
       '1' => 'Sorry to hear it :(',
-      'valid' => 'Thanks! Your number has been validated'
+      'verify' => 'Thanks! Your number has been verified'
     }[body]
   end
 

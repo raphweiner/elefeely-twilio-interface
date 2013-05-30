@@ -35,25 +35,25 @@ describe SmsController do
     end
   end
 
-  describe 'POST #validate' do
+  describe 'POST #verify' do
     context 'the request is valid' do
-      it 'queues a validate number job' do
-        controller.stub(:validate_request)
-        Resque.should_receive(:enqueue).with(SendSmsJob, :validation, '1234567890')
+      it 'queues a verify number job' do
+        controller.stub(authorized?: true)
+        Resque.should_receive(:enqueue).with(SendSmsJob, :verification, '1234567890')
 
-        post :validate, { number: '1234567890' }
+        post :verify, { number: '1234567890' }
       end
     end
 
     context 'the request signature is invalid' do
-      it 'does not queue validate number job' do
-        Resque.should_not_receive(:enqueue).with(SendSmsJob, :validation, '1234567890')
+      it 'does not queue verify number job' do
+        Resque.should_not_receive(:enqueue).with(SendSmsJob, :verification, '1234567890')
 
-        post :validate, { number: '1234567890' }
+        post :verify, { number: '1234567890' }
       end
 
       it 'responds with a 401' do
-        post :validate, { number: '1234567890' }
+        post :verify, { number: '1234567890' }
 
         expect(response.code).to eq '401'
       end

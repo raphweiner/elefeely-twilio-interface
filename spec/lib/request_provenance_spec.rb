@@ -4,7 +4,7 @@ describe RequestProvenance do
   describe '.authorized?' do
     before(:each) do
       @timestamp = Time.now.to_i.to_s
-      @path = 'http://localhost:3000/validate_number'
+      @path = 'http://localhost:3000/verification'
       @uri = @path + "?timestamp=#{@timestamp}"
       @signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha1'), ENV['ELEFEELY_SECRET'], @uri)
 

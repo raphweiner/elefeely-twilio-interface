@@ -23,11 +23,11 @@ private
     )
   end
 
-  def self.validation(client, phone_number)
+  def self.verification(client, phone_number)
     client.account.sms.messages.create(
       from: ENV['TWILIO_PHONE_NUMBER'],
       to:   phone_number,
-      body: 'Elefeely: Please respond "valid" to this text to complete signup'
+      body: 'Elefeely: Please respond "verify" to complete signup'
     )
   end
 end
