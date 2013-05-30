@@ -8,6 +8,6 @@ class PollTwilioJob
 private
 
   def self.enqueue_smss(phone_numbers)
-    phone_numbers.each { |number| Resque.enqueue(SendSmsJob, number) }
+    phone_numbers.each { |number| Resque.enqueue(SendSmsJob, :feeler, number) }
   end
 end

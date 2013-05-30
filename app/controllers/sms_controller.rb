@@ -1,4 +1,6 @@
 class SmsController < ApplicationController
+  before_filter :validate_request, only: :validate
+
   def create
     sms_message = TwilioFeelingSMS.new(params)
 
@@ -10,6 +12,10 @@ class SmsController < ApplicationController
     end
 
     render xml: sms_message.response_xml
+  end
+
+  def validate
+    Resque.enqueue(SendSmsJob, :validation, params[:number])
   end
 end
 
