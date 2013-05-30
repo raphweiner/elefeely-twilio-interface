@@ -12,11 +12,3 @@ class SmsController < ApplicationController
     Resque.enqueue(SendSmsJob, :verification, params[:number])
   end
 end
-
-class Elefeely
-  def self.send_feeling(params)
-  end
-
-  def self.verify_number(params)
-  end
-end

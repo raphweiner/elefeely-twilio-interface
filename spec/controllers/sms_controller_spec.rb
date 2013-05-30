@@ -14,6 +14,7 @@ describe SmsController do
       end
 
       it 'returns an appropriate response' do
+        Elefeely.stub(:send_feeling)
         post :create, @params
 
         expect(response.body).to eq "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>\n  <Sms>Great to hear!</Sms>\n</Response>\n"
