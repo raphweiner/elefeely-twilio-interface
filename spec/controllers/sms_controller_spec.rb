@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe SmsController do
-  before(:all) do
-    @params = YAML.load_file(Rails.root.join('spec/support', 'twilio_callback.yml'))
-  end
-
   describe 'POST #create' do
+    before(:all) do
+      @params = YAML.load_file(Rails.root.join('spec/support', 'twilio_callback.yml'))
+    end
+
     context 'happy path' do
       it 'creates request to Elefeely API' do
         Elefeely.should_receive(:send_feeling)
