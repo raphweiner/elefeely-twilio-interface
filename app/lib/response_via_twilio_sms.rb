@@ -13,9 +13,7 @@ class ResponseViaTwilioSMS
     if verification_response?
       Elefeely.verify_number(phone_number)
     elsif valid_feeling?
-      Elefeely.send_feeling(source: 'twilio',
-                            event_id: sms_sid,
-                            feeling: body,
+      Elefeely.send_feeling(feeling: { score: body, source_event_id: sms_sid },
                             uid: phone_number)
     end
   end
