@@ -2,7 +2,9 @@ class PollTwilioJob
   @queue = :twilio_queue
 
   def self.perform
-    enqueue_smss(Elefeely.phone_numbers)
+    response = Elefeely.phone_numbers
+
+    enqueue_smss(response['phone_numbers'])
   end
 
 private
