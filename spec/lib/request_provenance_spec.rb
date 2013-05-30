@@ -21,6 +21,7 @@ describe RequestProvenance do
       context 'with incorrect signature' do
         it 'returns false' do
           @params.merge!({params: { signature: '123' }})
+
           expect(RequestProvenance.new(@params)).to_not be_authorized
         end
       end
@@ -28,6 +29,7 @@ describe RequestProvenance do
       context 'outside of 10 seconds from timestamp' do
         it 'returns false' do
           Time.stub(:now).and_return(OpenStruct.new(to_i: @timestamp.to_i + 10))
+
           expect(RequestProvenance.new(@params)).to_not be_authorized
         end
       end

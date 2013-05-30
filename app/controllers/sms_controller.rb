@@ -2,14 +2,9 @@ class SmsController < ApplicationController
   before_filter :validate_request, only: :validate
 
   def create
-    sms_message = TwilioFeelingSMS.new(params)
+    sms_message = ResponseViaTwilioSMS.new(params)
 
-    if sms_message.valid?
-      Elefeely.send_feeling(source: 'twilio',
-                            event_id: sms_message.sms_sid,
-                            feeling: sms_message.body,
-                            uid: sms_message.phone_number)
-    end
+    sms_message.perform
 
     render xml: sms_message.response_xml
   end
@@ -21,5 +16,8 @@ end
 
 class Elefeely
   def self.send_feeling(params)
+  end
+
+  def self.validate_number(params)
   end
 end
