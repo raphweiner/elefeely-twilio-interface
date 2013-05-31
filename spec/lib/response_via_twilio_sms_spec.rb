@@ -61,7 +61,7 @@ describe ResponseViaTwilioSMS do
 
   describe '.reply_xml' do
     def xml_response(message)
-      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>\n  <Sms>#{message}</Sms>\n</Response>\n"
+      ({:Sms => message}.to_xml(:root => 'Response'))
     end
 
     it 'responds with the correct message when body is 5' do

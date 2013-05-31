@@ -6,8 +6,8 @@ describe SmsController do
       @params = YAML.load_file(Rails.root.join('spec/support', 'twilio_callback.yml'))
     end
 
-    context 'happy path' do
-      it 'creates request to Elefeely API' do
+    context 'on the happy path' do
+      it 'makes a .send_feeling request to the Elefeely API' do
         Elefeely.should_receive(:send_feeling)
 
         post :create, @params
@@ -17,28 +17,30 @@ describe SmsController do
         Elefeely.stub(:send_feeling)
         post :create, @params
 
-        expect(response.body).to eq "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>\n  <Sms>Great to hear!</Sms>\n</Response>\n"
+        expect(response.body).to eq({:Sms => 'Great to hear!'}.to_xml(:root => 'Response'))
       end
     end
 
-    context 'sad path' do
-      it 'creates request to Elefeely API' do
-        Elefeely.should_not_receive(:send_feeling)
+    context 'on the sad path' do
+      context 'with an invalid body' do
+        it 'does not make a request to Elefeely API' do
+          Elefeely.should_not_receive(:send_feeling)
 
-        post :create, @params.merge("Body" => "I'm invalid")
-      end
+          post :create, @params.merge("Body" => "I'm invalid")
+        end
 
-      it 'returns an appropriate response' do
-        post :create, @params.merge("Body" => "I'm invalid")
+        it 'returns an appropriate response' do
+          post :create, @params.merge("Body" => "I'm invalid")
 
-        expect(response.body).to eq "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>\n  <Sms>Please enter a number 1-5</Sms>\n</Response>\n"
+          expect(response.body).to eq({:Sms => 'Please enter a number 1-5'}.to_xml(:root => 'Response'))
+        end
       end
     end
   end
 
   describe 'POST #verify' do
-    context 'the request is valid' do
-      it 'queues a verify number job' do
+    context 'when the request is valid' do
+      it 'queues a verify number sms job' do
         controller.stub(authorized?: true)
         Resque.should_receive(:enqueue).with(SendSmsJob, :verification, '1234567890')
 
@@ -47,8 +49,8 @@ describe SmsController do
     end
 
     context 'the request signature is invalid' do
-      it 'does not queue verify number job' do
-        Resque.should_not_receive(:enqueue).with(SendSmsJob, :verification, '1234567890')
+      it 'does not queue a verify number sms job' do
+        Resque.should_not_receive(:enqueue)
 
         post :verify, { number: '1234567890' }
       end
