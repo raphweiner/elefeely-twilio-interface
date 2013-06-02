@@ -18,7 +18,7 @@ private
   end
 
   def answer
-    OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha1'),
+    OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha512'),
                             ENV['ELEFEELY_SECRET'],
                             uri)
   end

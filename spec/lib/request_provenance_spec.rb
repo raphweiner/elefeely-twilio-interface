@@ -6,7 +6,7 @@ describe RequestProvenance do
       @timestamp = Time.now.to_i.to_s
       @path = 'http://localhost:3000/verification'
       @uri = @path + "?timestamp=#{@timestamp}"
-      @signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha1'), ENV['ELEFEELY_SECRET'], @uri)
+      @signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha512'), ENV['ELEFEELY_SECRET'], @uri)
 
       @params = { path: @path, params: { timestamp: @timestamp, signature: @signature } }
     end
