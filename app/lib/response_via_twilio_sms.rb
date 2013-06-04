@@ -12,6 +12,8 @@ class ResponseViaTwilioSMS
   def forward
     if verification_response?
       Elefeely.verify_number(phone_number)
+    elsif unsubscribe_response?
+      Elefeely.unsubscribe_number(phone_number)
     elsif valid_feeling?
       Elefeely.send_feeling(feeling: { score: body, source_event_id: sms_sid },
                             uid: phone_number)
@@ -34,6 +36,10 @@ private
     @body == 'verify'
   end
 
+  def unsubscribe_response?
+    @body == '0'
+  end
+
   def valid_feeling?
     sms_sid && (1..5).include?(body.to_i) && phone_number
   end
@@ -45,6 +51,7 @@ private
       '3' => 'Gotcha. Hope something exciting happens.',
       '2' => 'Ok, rest up!',
       '1' => 'Sorry to hear it :(',
+      '0' => 'Your number has been unsubscribed',
       'verify' => 'Thanks! Your number has been verified'
     }[body]
   end

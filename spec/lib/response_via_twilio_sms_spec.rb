@@ -19,6 +19,15 @@ describe ResponseViaTwilioSMS do
       end
     end
 
+    context 'when it is an unsubscription response' do
+      it 'calls .unsubscribe_number on elefeely gem' do
+        subject.stub(unsubscribe_response?: true)
+        Elefeely.should_receive(:unsubscribe_number).with(@params['From'][-10..-1])
+
+        subject.forward
+      end
+    end
+
     context 'when it is a valid feeling' do
       it 'calls .send_feeling on elefeel gem' do
         subject.stub(valid_feeling?: true)
@@ -28,10 +37,9 @@ describe ResponseViaTwilioSMS do
       end
     end
 
-    context 'when it neither a valid feeling nor a verification response' do
-      it 'does not call .verify_number nor .send_feeling' do
+    context 'when it neither a valid feeling nor other valid response' do
+      it 'does not call .verify_number, .unsubscribe_number nor .send_feeling' do
         subject.stub(valid_feeling?: false)
-        subject.stub(verification_response?: false)
         Elefeely.should_not_receive(:verify_number)
         Elefeely.should_not_receive(:send_feeling)
 
@@ -92,6 +100,11 @@ describe ResponseViaTwilioSMS do
     it 'responds with the correct message when body is valid' do
       sms_response = ResponseViaTwilioSMS.new(@params.merge('Body' => 'VERIFY'))
       expect(sms_response.reply_xml).to eq xml_response('Thanks! Your number has been verified')
+    end
+
+    it 'responds with the correct message when body is valid' do
+      sms_response = ResponseViaTwilioSMS.new(@params.merge('Body' => '0'))
+      expect(sms_response.reply_xml).to eq xml_response('Your number has been unsubscribed')
     end
 
     it 'responds with the correct message when body is invalid' do

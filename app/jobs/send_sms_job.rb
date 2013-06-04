@@ -19,7 +19,9 @@ private
              2-Tired,
              3-Okay,
              4-Good,
-             5-Awesome'
+             5-Awesome.
+
+             0-Unsubscribe'
     )
   end
 
