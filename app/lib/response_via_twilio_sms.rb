@@ -51,7 +51,7 @@ private
       '3' => 'Gotcha. Hope something exciting happens.',
       '2' => 'Ok, rest up!',
       '1' => 'Sorry to hear it :(',
-      '0' => 'Your number has been unsubscribed',
+      '0' => "You've been unsubscribed. Mistake? Respond: 'verify'",
       'verify' => 'Thanks! Your number has been verified'
     }[body]
   end

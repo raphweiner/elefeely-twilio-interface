@@ -104,7 +104,7 @@ describe ResponseViaTwilioSMS do
 
     it 'responds with the correct message when body is valid' do
       sms_response = ResponseViaTwilioSMS.new(@params.merge('Body' => '0'))
-      expect(sms_response.reply_xml).to eq xml_response('Your number has been unsubscribed')
+      expect(sms_response.reply_xml).to eq xml_response("You've been unsubscribed. Mistake? Respond: 'verify'")
     end
 
     it 'responds with the correct message when body is invalid' do
