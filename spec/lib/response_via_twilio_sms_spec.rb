@@ -12,7 +12,7 @@ describe ResponseViaTwilioSMS do
   describe '.forward' do
     context 'when it is a verification response' do
       it 'calls .verify_number on elefeely gem' do
-        subject.stub(verification_response?: true)
+        subject.stub(verifying?: true)
         Elefeely.should_receive(:verify_number).with(@params['From'][-10..-1])
 
         subject.forward
@@ -21,7 +21,7 @@ describe ResponseViaTwilioSMS do
 
     context 'when it is an unsubscription response' do
       it 'calls .unsubscribe_number on elefeely gem' do
-        subject.stub(unsubscribe_response?: true)
+        subject.stub(unsubscription?: true)
         Elefeely.should_receive(:unsubscribe_number).with(@params['From'][-10..-1])
 
         subject.forward

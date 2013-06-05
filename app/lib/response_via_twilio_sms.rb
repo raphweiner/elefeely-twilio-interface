@@ -10,9 +10,9 @@ class ResponseViaTwilioSMS
   end
 
   def forward
-    if verification_response?
+    if verifying?
       Elefeely.verify_number(phone_number)
-    elsif unsubscribe_response?
+    elsif unsubscription?
       Elefeely.unsubscribe_number(phone_number)
     elsif valid_feeling?
       Elefeely.send_feeling(feeling: { score: body, source_event_id: sms_sid },
@@ -26,7 +26,7 @@ class ResponseViaTwilioSMS
     {:Sms => message}.to_xml(:root => 'Response')
   end
 
-  def verification_response?
+  def verifying?
     @body == 'verify'
   end
 
@@ -37,7 +37,7 @@ private
   end
 
 
-  def unsubscribe_response?
+  def unsubscription?
     @body == '0'
   end
 
