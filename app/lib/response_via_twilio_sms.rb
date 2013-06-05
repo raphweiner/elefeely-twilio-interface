@@ -12,6 +12,7 @@ class ResponseViaTwilioSMS
   def forward
     if verifying?
       Elefeely.verify_number(phone_number)
+      Resque.enqueue(SendSmsJob, :feeler, phone_number)
     elsif unsubscription?
       Elefeely.unsubscribe_number(phone_number)
     elsif valid_feeling?
