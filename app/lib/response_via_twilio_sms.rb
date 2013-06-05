@@ -26,15 +26,16 @@ class ResponseViaTwilioSMS
     {:Sms => message}.to_xml(:root => 'Response')
   end
 
+  def verification_response?
+    @body == 'verify'
+  end
+
 private
 
   def last_ten_digits(number)
     number.try(:[], (-10..-1))
   end
 
-  def verification_response?
-    @body == 'verify'
-  end
 
   def unsubscribe_response?
     @body == '0'
