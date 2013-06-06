@@ -178,7 +178,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv-rails (~> 0.7.0)
-  elefeely (~> 0.0.4)
+  elefeely (~> 0.0.3)
   guard-rspec (~> 3.0.1)
   pg (~> 0.15.1)
   rails (= 3.2.13)
