@@ -3,7 +3,7 @@ class SmsController < ApplicationController
 
   def create
     sms_response = ResponseViaTwilioSMS.new(params)
-    sms_response.forward
+    sms_response.send
 
     render xml: sms_response.reply_xml
   end

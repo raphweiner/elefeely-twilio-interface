@@ -9,13 +9,14 @@ describe ResponseViaTwilioSMS do
     ResponseViaTwilioSMS.new(@params)
   end
 
-  describe '.forward' do
+  describe '.send' do
     context 'when it is a verification response' do
       it 'calls .verify_number on elefeely gem' do
         subject.stub(verifying?: true)
+        Resque.stub(:enqueue)
         Elefeely.should_receive(:verify_number).with(@params['From'][-10..-1])
 
-        subject.forward
+        subject.send
       end
     end
 
@@ -24,7 +25,7 @@ describe ResponseViaTwilioSMS do
         subject.stub(unsubscription?: true)
         Elefeely.should_receive(:unsubscribe_number).with(@params['From'][-10..-1])
 
-        subject.forward
+        subject.send
       end
     end
 
@@ -33,7 +34,7 @@ describe ResponseViaTwilioSMS do
         subject.stub(valid_feeling?: true)
         Elefeely.should_receive(:send_feeling)
 
-        subject.forward
+        subject.send
       end
     end
 
@@ -43,7 +44,7 @@ describe ResponseViaTwilioSMS do
         Elefeely.should_not_receive(:verify_number)
         Elefeely.should_not_receive(:send_feeling)
 
-        subject.forward
+        subject.send
       end
     end
   end

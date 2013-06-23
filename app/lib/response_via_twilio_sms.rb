@@ -9,7 +9,7 @@ class ResponseViaTwilioSMS
     @phone_number = last_ten_digits(params['From'])
   end
 
-  def forward
+  def send
     if verifying?
       Elefeely.verify_number(phone_number)
       Resque.enqueue(SendSmsJob, :feeler, phone_number)
