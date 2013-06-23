@@ -12,11 +12,13 @@ class ResponseViaTwilioSMS
   def send
     if verifying?
       Elefeely.verify_number(phone_number)
-      Resque.enqueue(SendSmsJob, :feeler, phone_number)
+      enqueue_first_feeler(phone_number)
     elsif unsubscription?
       Elefeely.unsubscribe_number(phone_number)
     elsif valid_feeling?
-      Elefeely.send_feeling(feeling: { score: body, source_event_id: sms_sid },
+      Elefeely.send_feeling(feeling: { score: body,
+                                       source_event_id: sms_sid
+                                     },
                             uid: phone_number)
     end
   end
@@ -60,5 +62,9 @@ private
 
   def invalid_input_reply
     "Please enter a number 1-5"
+  end
+
+  def enqueue_first_feeler(phone_number)
+    Resque.enqueue(SendSmsJob, :feeler, phone_number)
   end
 end
